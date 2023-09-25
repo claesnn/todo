@@ -1,10 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Todo } from "@/types/types";
 import { DataTable } from "@/components/DataTable";
-import { useAppContext } from "@/store/context";
 
-export function TodoTable() {
-    const { state } = useAppContext();
+export const TodoTable = ({todos, toggleTodo, deleteTodo}: {todos:Todo[], toggleTodo: (id: number) => void, deleteTodo: (id: number) => void}) => {
 
     const columns: ColumnDef<Todo>[] = [
         {
@@ -19,12 +17,31 @@ export function TodoTable() {
           header: "Completed",
           accessorKey: "completed",
         },
+        {
+          header: "Actions",
+          cell: (row) => (
+            <>
+            <button
+              className="btn btn-warning"
+              onClick={() => toggleTodo(row.row.original.id)}
+            >
+              Toggle
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => deleteTodo(row.row.original.id)}
+            >
+              Delete
+            </button>
+            </>
+          ),
+        },
       ];
     
     return (
         <DataTable<Todo, string>
         columns={columns}
-        data={state.todos}
+        data={todos}
         />
     );
 }

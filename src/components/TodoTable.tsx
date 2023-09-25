@@ -8,7 +8,7 @@ type Props = {
   deleteTodo: (id: number) => void;
 };
 
-export const TodoTable = ({todos, toggleTodo, deleteTodo}: Props) => {
+export function TodoTable({todos, toggleTodo, deleteTodo}: Props) {
 
     const columns: ColumnDef<Todo>[] = [
         {

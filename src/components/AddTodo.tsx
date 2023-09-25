@@ -1,6 +1,12 @@
 import { useState } from "react"
 
-export function AddTodo({addTodo}: {addTodo: (title: string) => void}) {
+// TODO: Use Shadcn-UI to create a form to add a todo
+
+type Props = {
+    addTodo: (title: string) => void
+}
+
+export function AddTodo({addTodo}: Props) {
 
     const [title, setTitle] = useState('')
     return (

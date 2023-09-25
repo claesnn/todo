@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Todo } from "@/types/types";
 import { DataTable } from "@/components/DataTable";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   todos: Todo[];
@@ -27,18 +28,17 @@ export function TodoTable({todos, toggleTodo, deleteTodo}: Props) {
           header: "Actions",
           cell: (row) => (
             <>
-            <button
-              className="btn btn-warning"
+            <Button
+              className="mr-2"
               onClick={() => toggleTodo(row.row.original.id)}
             >
               Toggle
-            </button>
-            <button
-              className="btn btn-danger"
+            </Button>
+            <Button
               onClick={() => deleteTodo(row.row.original.id)}
             >
               Delete
-            </button>
+            </Button>
             </>
           ),
         },

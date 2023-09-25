@@ -2,7 +2,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Todo } from "@/types/types";
 import { DataTable } from "@/components/DataTable";
 
-export const TodoTable = ({todos, toggleTodo, deleteTodo}: {todos:Todo[], toggleTodo: (id: number) => void, deleteTodo: (id: number) => void}) => {
+type Props = {
+  todos: Todo[];
+  toggleTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
+};
+
+export const TodoTable = ({todos, toggleTodo, deleteTodo}: Props) => {
 
     const columns: ColumnDef<Todo>[] = [
         {

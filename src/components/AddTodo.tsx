@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,14 +43,17 @@ export function AddTodo({ addTodo }: Props) {
           name="title"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Title" {...field} />
+                <div className="flex w-full items-center space-x-2">
+                  <Input placeholder="My awesome todo" {...field} />
+                  <Button type="submit">Add</Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Add Todo</Button>
       </form>
     </Form>
   );

@@ -2,6 +2,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Todo } from "@/types/types";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
+import { DataTableColumnHeader } from "@/components/DataTableHeader";
+import { CheckIcon, Cross1Icon } from "@radix-ui/react-icons";
+
+// TODO: Make list paginatable
+// TODO: Make list editable
+// TODO: Make list exportable
+// TODO: Make list importable
+// TODO: Make completed column a checkbox
 
 type Props = {
   todos: Todo[];
@@ -9,45 +17,46 @@ type Props = {
   deleteTodo: (id: number) => void;
 };
 
-export function TodoTable({todos, toggleTodo, deleteTodo}: Props) {
+export function TodoTable({ todos, toggleTodo, deleteTodo }: Props) {
+  const columns: ColumnDef<Todo>[] = [
+    {
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="ID" />
+      ),
+      accessorKey: "id",
+    },
+    {
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Title" />
+      ),
+      accessorKey: "title",
+    },
+    {
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Completed" />
+      ),
+      accessorKey: "completed",
+      cell: (row) => (
+        <>{row.row.original.completed ? <CheckIcon /> : <Cross1Icon />}</>
+      ),
+    },
+    {
+      header: "Actions",
+      cell: (row) => (
+        <>
+          <Button
+            className="mr-2"
+            onClick={() => toggleTodo(row.row.original.id)}
+          >
+            {row.row.original.completed ? "Reopen" : "Finish"}
+          </Button>
+          <Button onClick={() => deleteTodo(row.row.original.id)}>
+            Delete
+          </Button>
+        </>
+      ),
+    },
+  ];
 
-    const columns: ColumnDef<Todo>[] = [
-        {
-          header: "ID",
-          accessorKey: "id",
-        },
-        {
-          header: "Title",
-          accessorKey: "title",
-        },
-        {
-          header: "Completed",
-          accessorKey: "completed",
-        },
-        {
-          header: "Actions",
-          cell: (row) => (
-            <>
-            <Button
-              className="mr-2"
-              onClick={() => toggleTodo(row.row.original.id)}
-            >
-              Toggle
-            </Button>
-            <Button
-              onClick={() => deleteTodo(row.row.original.id)}
-            >
-              Delete
-            </Button>
-            </>
-          ),
-        },
-      ];
-    
-    return (
-        <DataTable<Todo, string>
-        columns={columns}
-        data={todos}
-        />
-    );
+  return <DataTable<Todo, string> columns={columns} data={todos} />;
 }

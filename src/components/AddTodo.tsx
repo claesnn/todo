@@ -10,18 +10,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { TodoData, priorityMap } from "@/types/types";
 
 // TODO: Make it possible to submit on enter
 
 const formSchema = z.object({
   title: z.string().min(3).max(20),
   finished: z.boolean(),
+  priority: z.string(),
 });
 
 type Props = {
-  addTodo: (title: string, finished: boolean) => void;
+  addTodo: (data: TodoData) => void;
 };
 
 export function AddTodo({ addTodo }: Props) {
@@ -30,11 +39,19 @@ export function AddTodo({ addTodo }: Props) {
     defaultValues: {
       title: "",
       finished: false,
+      priority: priorityMap[0].label,
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    addTodo(data.title, data.finished);
+    const priorityObj = priorityMap.find((p) => p.label === data.priority);
+    const priority = priorityObj ? priorityObj.value : 0;
+
+    addTodo({
+      title: data.title,
+      completed: data.finished,
+      priority: priority as 0 | 1 | 2,
+    });
     form.reset();
   }
 
@@ -70,6 +87,28 @@ export function AddTodo({ addTodo }: Props) {
                   />
                 </div>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="priority"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Priority</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a Priority" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {priorityMap.map((p) => (
+                    <SelectItem value={p.label}>{p.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

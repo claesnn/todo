@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Todo } from "@/types/types";
+import { Todo, priorityMap } from "@/types/types";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/DataTableHeader";
@@ -30,6 +30,14 @@ export function TodoTable({ todos, toggleTodo, deleteTodo }: Props) {
         <DataTableColumnHeader column={column} title="Title" />
       ),
       accessorKey: "title",
+    },
+    {
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Priority" />
+      ),
+      accessorKey: "priority",
+      cell: (row) =>
+        priorityMap.find((p) => p.value === row.row.original.priority)?.label,
     },
     {
       header: ({ column }) => (

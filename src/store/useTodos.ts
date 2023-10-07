@@ -1,15 +1,17 @@
 import { useState, useRef } from "react";
 import { todos as initialData } from "@/data/todos";
+import { TodoData } from "@/types/types";
 
 export const useTodos = () => {
   const [todos, setTodos] = useState(initialData);
   const nextId = useRef(todos.length + 1);
 
-  const addTodo = (title: string, finished: boolean) => {
+  const addTodo = (data: TodoData) => {
     const newTodo = {
       id: nextId.current++,
-      title,
-      completed: finished,
+      title: data.title,
+      completed: data.completed,
+      priority: data.priority,
     };
     setTodos([...todos, newTodo]);
   };

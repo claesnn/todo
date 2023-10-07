@@ -5,11 +5,11 @@ export const useTodos = () => {
   const [todos, setTodos] = useState(initialData);
   const nextId = useRef(todos.length + 1);
 
-  const addTodo = (title: string) => {
+  const addTodo = (title: string, finished: boolean) => {
     const newTodo = {
       id: nextId.current++,
       title,
-      completed: false,
+      completed: finished,
     };
     setTodos([...todos, newTodo]);
   };
@@ -35,4 +35,4 @@ export const useTodos = () => {
     toggleTodo,
     deleteTodo,
   };
-}
+};

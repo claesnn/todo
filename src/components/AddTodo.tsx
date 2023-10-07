@@ -10,16 +10,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
 // TODO: Make it possible to submit on enter
 
 const formSchema = z.object({
   title: z.string().min(3).max(20),
+  finished: z.boolean(),
 });
 
 type Props = {
-  addTodo: (title: string) => void;
+  addTodo: (title: string, finished: boolean) => void;
 };
 
 export function AddTodo({ addTodo }: Props) {
@@ -27,11 +29,12 @@ export function AddTodo({ addTodo }: Props) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      finished: false,
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    addTodo(data.title);
+    addTodo(data.title, data.finished);
     form.reset();
   }
 
@@ -47,13 +50,31 @@ export function AddTodo({ addTodo }: Props) {
               <FormControl>
                 <div className="flex w-full items-center space-x-2">
                   <Input placeholder="My awesome todo" {...field} />
-                  <Button type="submit">Add</Button>
                 </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="finished"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Finished</FormLabel>
+              <FormControl>
+                <div className="flex w-full items-center space-x-2">
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Add</Button>
       </form>
     </Form>
   );

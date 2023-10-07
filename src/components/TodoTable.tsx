@@ -36,8 +36,7 @@ export function TodoTable({ todos, toggleTodo, deleteTodo }: Props) {
         <DataTableColumnHeader column={column} title="Priority" />
       ),
       accessorKey: "priority",
-      cell: (row) =>
-        priorityMap.find((p) => p.value === row.row.original.priority)?.label,
+      cell: (row) => priorityMap[row.row.original.priority],
     },
     {
       header: ({ column }) => (

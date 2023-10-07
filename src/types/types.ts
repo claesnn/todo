@@ -7,8 +7,4 @@ export type Todo = {
 
 export type TodoData = Omit<Todo, "id">;
 
-export const priorityMap = [
-  { label: "Low", value: 0 },
-  { label: "Medium", value: 1 },
-  { label: "High", value: 2 },
-];
+export const priorityMap = ["Low", "Medium", "High"];

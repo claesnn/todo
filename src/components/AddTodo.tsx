@@ -39,18 +39,15 @@ export function AddTodo({ addTodo }: Props) {
     defaultValues: {
       title: "",
       finished: false,
-      priority: priorityMap[0].label,
+      priority: priorityMap[0],
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const priorityObj = priorityMap.find((p) => p.label === data.priority);
-    const priority = priorityObj ? priorityObj.value : 0;
-
     addTodo({
       title: data.title,
       completed: data.finished,
-      priority: priority as 0 | 1 | 2,
+      priority: priorityMap.indexOf(data.priority) as 0 | 1 | 2,
     });
     form.reset();
   }
@@ -105,7 +102,7 @@ export function AddTodo({ addTodo }: Props) {
                 </FormControl>
                 <SelectContent>
                   {priorityMap.map((p) => (
-                    <SelectItem value={p.label}>{p.label}</SelectItem>
+                    <SelectItem value={p}>{p}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

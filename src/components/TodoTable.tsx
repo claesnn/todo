@@ -43,9 +43,8 @@ export function TodoTable({ todos, toggleTodo, deleteTodo }: Props) {
         <DataTableColumnHeader column={column} title="Completed" />
       ),
       accessorKey: "completed",
-      cell: (row) => (
-        <>{row.row.original.completed ? <CheckIcon /> : <Cross1Icon />}</>
-      ),
+      cell: (row) =>
+        row.row.original.completed ? <CheckIcon /> : <Cross1Icon />,
     },
     {
       header: "Actions",

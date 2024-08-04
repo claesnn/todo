@@ -21,8 +21,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { TodoData, priorityMap } from "@/types/types";
 
-// TODO: Make it possible to submit on enter
-
 const formSchema = z.object({
   title: z.string().min(3).max(20),
   finished: z.boolean(),
